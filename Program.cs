@@ -22,16 +22,14 @@ public class DownloadManager
             try
             {
                 HttpResponseMessage response = await httpClient.GetAsync(url);
-                response.EnsureSuccessStatusCode(); // Бросит исключение в случае неудачного запроса
+                response.EnsureSuccessStatusCode();
 
                 string fileName = Path.GetFileName(url);
-                string saveDirectory = AppDomain.CurrentDomain.BaseDirectory; // Директория, где находится исполняемый файл
+                string saveDirectory = AppDomain.CurrentDomain.BaseDirectory; 
 
-                // Проверяем, существует ли файл с таким именем
                 string filePath = Path.Combine(saveDirectory, fileName);
                 if (File.Exists(filePath))
                 {
-                    // Если файл с таким именем уже существует, добавляем случайную строку к имени файла
                     fileName = $"{Path.GetFileNameWithoutExtension(fileName)}_{Guid.NewGuid()}{Path.GetExtension(fileName)}";
                     filePath = Path.Combine(saveDirectory, fileName);
                 }
