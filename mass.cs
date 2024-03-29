@@ -1,12 +1,30 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
-public class ArrayProcessor
+namespace ConsoleApp38
 {
-    public void IncrementArrayElements(int[] array)
+    internal class Program
     {
-        Parallel.ForEach(array, (element, state, index) =>
+        static void Main(string[] args)
         {
-            array[index] = element + 1;
-        });
+            ArrayProcessor arrayProcessor = new ArrayProcessor();
+
+            int[] array = new int[] { 1, 2, 2, 2, 2, 2, 2 };
+
+            arrayProcessor.IncrementArrayElements(array);
+
+            Console.ReadLine();
+        }
+    }
+
+    public class ArrayProcessor
+    {
+        public void IncrementArrayElements(int[] array)
+        {
+            Parallel.For(0, array.Length, i =>
+            {
+                array[i]++;
+            });
+        }
     }
 }
