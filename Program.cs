@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -17,6 +17,8 @@ public class DownloadManager
 
     private async Task DownloadFileAsync(string url)
     {
+        Console.WriteLine($"Начало скачивания файла {url}.");
+
         using (var httpClient = new HttpClient())
         {
             try
@@ -25,7 +27,7 @@ public class DownloadManager
                 response.EnsureSuccessStatusCode();
 
                 string fileName = Path.GetFileName(url);
-                string saveDirectory = AppDomain.CurrentDomain.BaseDirectory; 
+                string saveDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
                 string filePath = Path.Combine(saveDirectory, fileName);
                 if (File.Exists(filePath))
@@ -46,6 +48,10 @@ public class DownloadManager
             {
                 Console.WriteLine($"Ошибка при скачивании файла {url}: {e.Message}");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Произошла ошибка при скачивании файла {url}: {ex.Message}");
+            }
         }
     }
 }
@@ -57,5 +63,7 @@ class Program
         string[] urls = { "https://github.com/VsevolodYatsuk/DevOps-KT1/archive/refs/heads/main.zip", "https://github.com/VsevolodYatsuk/cloud-yandex/archive/refs/heads/main.zip" };
         var downloadManager = new DownloadManager();
         await downloadManager.DownloadFilesAsync(urls);
+
+        Console.WriteLine("Программа завершена.");
     }
 }
